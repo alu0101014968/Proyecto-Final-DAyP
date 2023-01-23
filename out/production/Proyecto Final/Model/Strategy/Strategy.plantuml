@@ -2,8 +2,8 @@
 
 title __STRATEGY's Class Diagram__\n
 
-  namespace  {
-    namespace odel {
+
+    namespace Model {
       namespace Strategy {
         class Model.Strategy.ApiCovidJson {
             - data : String
@@ -26,11 +26,10 @@ title __STRATEGY's Class Diagram__\n
         }
       }
     }
-  }
+
   
 
-  namespace  {
-    namespace odel {
+    namespace Model {
       namespace Strategy {
         class Model.Strategy.ApiCriptoJson {
             - data : String
@@ -49,11 +48,11 @@ title __STRATEGY's Class Diagram__\n
         }
       }
     }
-  }
+
   
 
-  namespace  {
-    namespace odel {
+
+    namespace Model {
       namespace Strategy {
         interface Model.Strategy.Strategy {
             {abstract} + actualice()
@@ -67,7 +66,7 @@ title __STRATEGY's Class Diagram__\n
         }
       }
     }
-  }
+
   
 
   Model.Strategy.ApiCovidJson .up.|> Model.Strategy.Strategy

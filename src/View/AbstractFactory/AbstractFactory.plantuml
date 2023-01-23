@@ -2,34 +2,34 @@
 
 title __ABSTRACTFACTORY's Class Diagram__\n
 
-  namespace  {
-    namespace iew.AbstractFactory {
+
+    namespace View.AbstractFactory {
       class View.AbstractFactory.CovidRepresentationFactory {
           + createBarDiagram()
           + createLineDiagram()
       }
     }
-  }
+
   
 
-  namespace  {
-    namespace iew.AbstractFactory {
+
+    namespace View.AbstractFactory {
       class View.AbstractFactory.CriptoRepresentationFactory {
           + createBarDiagram()
           + createLineDiagram()
       }
     }
-  }
+
   
 
-  namespace  {
-    namespace iew.AbstractFactory {
+
+    namespace View.AbstractFactory {
       abstract class View.AbstractFactory.RepresentationAbstractFactory {
           {abstract} + createBarDiagram()
           {abstract} + createLineDiagram()
       }
     }
-  }
+
   
 
   View.AbstractFactory.CovidRepresentationFactory -up-|> View.AbstractFactory.RepresentationAbstractFactory

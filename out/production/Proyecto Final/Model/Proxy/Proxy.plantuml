@@ -2,9 +2,8 @@
 
 title __PROXY's Class Diagram__\n
 
-  namespace  {
-    namespace odel {
-      namespace Proxy {
+
+
         class Model.Proxy.StrategyProxy {
             ~ cache : HashMap<String, String>
             ~ thread : Thread
@@ -19,9 +18,9 @@ title __PROXY's Class Diagram__\n
             + loadData()
             + setData()
         }
-      }
-    }
-  }
+
+
+
   
 
   Model.Proxy.StrategyProxy .up.|> Model.Strategy.Strategy

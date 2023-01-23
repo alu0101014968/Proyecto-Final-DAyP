@@ -2,8 +2,8 @@
 
 title __OBSERVER's Class Diagram__\n
 
-  namespace  {
-    namespace odel {
+
+    namespace Model {
       namespace Observer {
         class Model.Observer.Notifier {
             - dataset : DefaultCategoryDataset
@@ -17,7 +17,24 @@ title __OBSERVER's Class Diagram__\n
         }
       }
     }
-  }
+
+namespace Model {
+      class Model.Model {
+          - name : String
+          + Model()
+          + actualice()
+          + getDiagramDataset()
+          + getImageUrl()
+          + getInfo()
+          + getName()
+          + getNotifier()
+          + loadData()
+          + setStrategy()
+          + subscribe()
+          + unsubscribe()
+      }
+    }
+Model.Model o-- Model.Observer.Notifier : notifier
   
 
 

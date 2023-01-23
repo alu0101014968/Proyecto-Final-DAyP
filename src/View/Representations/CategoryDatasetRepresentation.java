@@ -38,6 +38,7 @@ public abstract class CategoryDatasetRepresentation extends JFrame implements Re
     }
 
     public void removeData(String id) {
+        System.out.println(dataset.getRowKeys());
         dataset.removeRow(id);
         setDataset(dataset);
     }
@@ -58,6 +59,10 @@ public abstract class CategoryDatasetRepresentation extends JFrame implements Re
     public void setDataset(DefaultCategoryDataset dataset) {
         CategoryPlot plot = (CategoryPlot) chart.getPlot();
         plot.setDataset(dataset);
+    }
+
+    public DefaultCategoryDataset getDataset() {
+        return dataset;
     }
 
     @Override

@@ -9,6 +9,7 @@ import View.CriptoView.CriptoView;
 import View.Representations.CategoryDatasetRepresentation;
 import org.jfree.chart.ChartPanel;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -67,7 +68,7 @@ public class CriptoController implements ActionListener {
         Date date = new Date();
         view.lbCoin.setText(info.get(0));
         view.lbCoinpricevalue.setText(info.get(1));
-        view.lbmarketrankVlaue.setText(info.get(2));
+        view.lbmarketrankVlaue.setText("# " + info.get(2));
         view.lbdeveloperValue.setText(info.get(3));
         view.lbUpdate.setText("Last update: " + String.valueOf(date));
     }
@@ -84,6 +85,42 @@ public class CriptoController implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        Object origen = e.getSource();
+        if (origen == this.view.findButton) {
+            findButtonFunction();
+        } else if (origen == this.view.updateButton) {
+            updateButtonFunction();
+        } else if (origen == this.view.helpButton) {
+            JOptionPane.showMessageDialog(null, "Write a Coin ID and then click in the find button " +
+                    "to see all its cripto data");
+        } else if (origen == this.view.linebutton) {
+            view.graphic1.removeAll();
+            view.graphic1.add(chartPanelLine);
+            view.graphic1.revalidate();
+            view.graphic1.repaint();
+            view.graphic1.setVisible(true);
+        } else if (origen == this.view.barButton) {
+            view.graphic1.removeAll();
+            view.graphic1.add(chartPanelBar);
+            view.graphic1.revalidate();
+            view.graphic1.repaint();
+            view.graphic1.setVisible(true);
+        }
+    }
 
+    private void findButtonFunction() {
+        if (!view.countryTextfield.getText().isEmpty()) {
+            try {
+                this.model.loadData(view.countryTextfield.getText());
+                view.countryTextfield.setText("");
+                setInfo(model.getInfo());
+                view.setImage(model.getImageUrl());
+            } catch (Exception ex) {
+                view.countryTextfield.setText("");
+                JOptionPane.showMessageDialog(null, "Unknown Country");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "You must write a Name of a country");
+        }
     }
 }

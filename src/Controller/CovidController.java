@@ -2,9 +2,11 @@ package Controller;
 
 import Model.Model;
 import View.AbstractFactory.CovidRepresentationFactory;
+import View.AbstractFactory.CriptoRepresentationFactory;
 import View.AbstractFactory.RepresentationAbstractFactory;
 import View.Representations.CategoryDatasetRepresentation;
 import View.CovidView.CovidView;
+import View.Representations.CriptoLineDiagram;
 import org.jfree.chart.ChartPanel;
 
 import javax.swing.*;
@@ -49,6 +51,13 @@ public class CovidController implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        CovidRepresentationFactory factory = new CovidRepresentationFactory();
+        try {
+            CategoryDatasetRepresentation auxlineDiagram = (CategoryDatasetRepresentation) factory.createLineDiagram(lineDiagram.getDataset());
+            CategoryDatasetRepresentation auxbarDiagram = (CategoryDatasetRepresentation) factory.createBarDiagram(barDiagram.getDataset());
+        } catch (CloneNotSupportedException ex) {
+            ex.printStackTrace();
+        }
         if (view.comboBox1.getSelectedItem().equals("Bar Diagram")) {
             view.graphic1.removeAll();
             view.graphic1.add(chartPanelBar);
@@ -57,25 +66,21 @@ public class CovidController implements ActionListener {
             view.graphic1.add(chartPanelLine);
         }
         if (view.comboBox2.getSelectedItem().equals("All")) {
-            barDiagram.setDataset(model.getDiagramDataset());
-            lineDiagram.setDataset(model.getDiagramDataset());
+            restaure();
         } else if (view.comboBox2.getSelectedItem().equals("2020")) {
-            barDiagram.setDataset(model.getDiagramDataset());
-            lineDiagram.setDataset(model.getDiagramDataset());
+            restaure();
             barDiagram.removeAllColums("2022");
             lineDiagram.removeAllColums("2022");
             barDiagram.removeAllColums("2021");
             lineDiagram.removeAllColums("2021");
         } else if (view.comboBox2.getSelectedItem().equals("2021")) {
-            barDiagram.setDataset(model.getDiagramDataset());
-            lineDiagram.setDataset(model.getDiagramDataset());
+            restaure();
             barDiagram.removeAllColums("2022");
             lineDiagram.removeAllColums("2022");
             barDiagram.removeAllColums("2020");
             lineDiagram.removeAllColums("2020");
         } else if (view.comboBox2.getSelectedItem().equals("2022")) {
-            barDiagram.setDataset(model.getDiagramDataset());
-            lineDiagram.setDataset(model.getDiagramDataset());
+            restaure();
             barDiagram.removeAllColums("2021");
             lineDiagram.removeAllColums("2021");
             barDiagram.removeAllColums("2020");
@@ -94,24 +99,25 @@ public class CovidController implements ActionListener {
             JOptionPane.showMessageDialog(null, "Write a Country and then click in the find button " +
                     "to see all its covid data");
         } else if (origen == view.recoverButton) {
-            barDiagram.setDataset(model.getDiagramDataset());
-            lineDiagram.setDataset(model.getDiagramDataset());
+            restaure();
             barDiagram.removeData("Cases");
             barDiagram.removeData("Deaths");
         } else if (origen == view.deathsButton) {
-            barDiagram.setDataset(model.getDiagramDataset());
-            lineDiagram.setDataset(model.getDiagramDataset());
+            restaure();
             barDiagram.removeData("Cases");
             barDiagram.removeData("Recovered");
         } else if (origen == view.casesButton) {
-            barDiagram.setDataset(model.getDiagramDataset());
-            lineDiagram.setDataset(model.getDiagramDataset());
+            restaure();
             barDiagram.removeData("Deaths");
             barDiagram.removeData("Recovered");
         } else if (origen == view.summaryButton) {
-            barDiagram.setDataset(model.getDiagramDataset());
-            lineDiagram.setDataset(model.getDiagramDataset());
+           restaure();
         }
+    }
+
+    public void restaure() {
+        barDiagram.setDataset(model.getDiagramDataset());
+        lineDiagram.setDataset(model.getDiagramDataset());
     }
 
     private void findButtonFunction() {

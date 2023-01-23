@@ -43,6 +43,7 @@ public class ApiCriptoJson implements Strategy {
         ArrayList<String> contents = new ArrayList<>();
         JSONObject o = new JSONObject(data);
         JSONObject o1 = o.getJSONObject("market_data").getJSONObject("current_price");
+        contents.add(this.name);
         contents.add(String.valueOf(o1.get("eur")));
         contents.add(String.valueOf(o.get("market_cap_rank")));
         contents.add(String.valueOf(o.get("developer_score")));
@@ -54,15 +55,15 @@ public class ApiCriptoJson implements Strategy {
         ArrayList<Pair> values = new ArrayList<>();
         JSONObject o = new JSONObject(data);
         JSONObject o1 = o.getJSONObject("market_data").getJSONObject(id);
-        values.add(new Pair("aed", o1.get("aed")));
-        values.add(new Pair("bmd", o1.get("bmd")));
-        values.add(new Pair("cad", o1.get("cad")));
-        values.add(new Pair("czk", o1.get("czk")));
-        values.add(new Pair("cny", o1.get("cny")));
-        values.add(new Pair("eur", o1.get("eur")));
-        values.add(new Pair("eos", o1.get("eos")));
-        values.add(new Pair("gbp", o1.get("gbp")));
-        values.add(new Pair("nzd", o1.get("nzd")));
+        values.add(new Pair("aed", String.valueOf(o1.get("aed")).replace(".", "")));
+        values.add(new Pair("bmd", String.valueOf(o1.get("bmd")).replace(".", "")));
+        values.add(new Pair("cad", String.valueOf(o1.get("cad")).replace(".", "")));
+        values.add(new Pair("xrp", String.valueOf(o1.get("xrp")).replace(".", "")));
+        values.add(new Pair("cny", String.valueOf(o1.get("cny")).replace(".", "")));
+        values.add(new Pair("eur", String.valueOf(o1.get("eur")).replace(".", "")));
+        values.add(new Pair("eos", String.valueOf(o1.get("eos")).replace(".", "")));
+        values.add(new Pair("chf", String.valueOf(o1.get("chf")).replace(".", "")));
+        values.add(new Pair("nzd", String.valueOf(o1.get("nzd")).replace(".", "")));
         return values;
     }
 
@@ -70,7 +71,8 @@ public class ApiCriptoJson implements Strategy {
     public DefaultCategoryDataset getDiagramDataset() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for (Pair p : getDiagramData("current_price")) {
-            dataset.addValue((Integer) p.getSecond(), "Type of market value", (String) p.getFirst());
+            Integer val = Integer.parseInt((String) p.getSecond());
+            dataset.addValue(val, "Type of market value", (String) p.getFirst());
         }
         return dataset;
     }

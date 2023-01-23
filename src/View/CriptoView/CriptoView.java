@@ -108,7 +108,7 @@ public abstract class CriptoView extends JFrame {
         lbUpdate.setForeground(SystemColor.text);
         lbUpdate.setFont(new Font("Roboto", Font.BOLD, 14));
         lbUpdate.setBackground(SystemColor.textHighlight);
-        lbUpdate.setBounds(77, 10, 230, 47);
+        lbUpdate.setBounds(77, 10, 300, 47);
         panel_1.add(lbUpdate);
 
         updateButton = new JButton("");
@@ -145,7 +145,7 @@ public abstract class CriptoView extends JFrame {
         lbCoin = new JLabel("Coin");
         lbCoin.setForeground(Color.BLACK);
         lbCoin.setFont(new Font("Roboto", Font.BOLD, 36));
-        lbCoin.setBounds(132, 26, 655, 91);
+        lbCoin.setBounds(110, 26, 655, 91);
         panel_3.add(lbCoin);
 
         JLabel lbmarket = new JLabel("Market rank");
@@ -155,7 +155,7 @@ public abstract class CriptoView extends JFrame {
         panel_3.add(lbmarket);
 
         lblFlag = new JLabel("");
-        lblFlag.setBounds(34, 45, 82, 48);
+        lblFlag.setBounds(34, 45, 60, 48);
         panel_3.add(lblFlag);
 
         lbmarketrankVlaue = new JLabel("New label");
