@@ -23,6 +23,7 @@ public class ApiCriptoJson implements Strategy {
     }
 
     public void setData(String data, String name) {
+        this.name = name;
         this.data = data;
     }
 
@@ -32,6 +33,7 @@ public class ApiCriptoJson implements Strategy {
 
     @Override
     public boolean loadData(String name) throws IOException {
+        this.name = name;
         data = HttpUrlConnection.downloadFromURL(url + name);
         return !data.equals("Error");
     }
@@ -49,12 +51,28 @@ public class ApiCriptoJson implements Strategy {
 
     @Override
     public ArrayList<Pair> getDiagramData(String id) {
-        return new ArrayList<Pair>();
+        ArrayList<Pair> values = new ArrayList<>();
+        JSONObject o = new JSONObject(data);
+        JSONObject o1 = o.getJSONObject("market_data").getJSONObject(id);
+        values.add(new Pair("aed", o1.get("aed")));
+        values.add(new Pair("bmd", o1.get("bmd")));
+        values.add(new Pair("cad", o1.get("cad")));
+        values.add(new Pair("czk", o1.get("czk")));
+        values.add(new Pair("cny", o1.get("cny")));
+        values.add(new Pair("eur", o1.get("eur")));
+        values.add(new Pair("eos", o1.get("eos")));
+        values.add(new Pair("gbp", o1.get("gbp")));
+        values.add(new Pair("nzd", o1.get("nzd")));
+        return values;
     }
 
     @Override
     public DefaultCategoryDataset getDiagramDataset() {
-        return null;
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        for (Pair p : getDiagramData("current_price")) {
+            dataset.addValue((Integer) p.getSecond(), "Type of market value", (String) p.getFirst());
+        }
+        return dataset;
     }
 
     @Override

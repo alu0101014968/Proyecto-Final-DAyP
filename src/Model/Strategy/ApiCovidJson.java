@@ -85,7 +85,6 @@ public class ApiCovidJson implements Strategy {
         JSONObject jsonObject;
         for (int i = 0; i < jsonArray.length(); i++) {
             jsonObject = jsonArray.getJSONObject(i);
-            //System.out.println(jsonObject);
             String date = removeLastNchars(jsonObject.getString("Date"), 10);
             Integer number = jsonObject.getInt(id);
             if (i > 0) {
