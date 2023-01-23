@@ -174,7 +174,7 @@ public abstract class CriptoView extends JFrame {
         lbdeveloperValue.setBounds(655, 159, 82, 22);
         panel_3.add(lbdeveloperValue);
 
-        JLabel lbcoinprice = new JLabel("Market rank");
+        JLabel lbcoinprice = new JLabel("Value (euros)");
         lbcoinprice.setForeground(Color.BLACK);
         lbcoinprice.setFont(new Font("Roboto", Font.BOLD, 18));
         lbcoinprice.setBounds(51, 94, 155, 61);
