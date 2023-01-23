@@ -13,10 +13,8 @@ public interface Strategy {
     ArrayList<String> getInfo() throws IOException, ParseException;
     void setData(String data, String name) throws IOException;
     String getData();
-    ArrayList<Pair> getChartDiagram(String id);
-    ArrayList<Pair> getLineDiagram(String id);
+    ArrayList<Pair> getDiagramData(String id);
     DefaultCategoryDataset getDiagramDataset();
     boolean actualice(String name) throws IOException;
     String getImageUrl() throws IOException;
-    //void saveIcon();
 }

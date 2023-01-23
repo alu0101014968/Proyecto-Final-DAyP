@@ -4,6 +4,7 @@ import Model.HttpUrlConnection;
 import Model.Pair;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 public class ApiCriptoJson implements Strategy {
     private String data;
     private String name;
-    private String url = "https://api.covid19api.com/total/country/";
+    private String url = "https://api.coingecko.com/api/v3/coins/";
 
     public ApiCriptoJson() {
 
@@ -37,16 +38,17 @@ public class ApiCriptoJson implements Strategy {
 
     @Override
     public ArrayList<String> getInfo() {
-        return null;
+        ArrayList<String> contents = new ArrayList<>();
+        JSONObject o = new JSONObject(data);
+        JSONObject o1 = o.getJSONObject("market_data").getJSONObject("current_price");
+        contents.add(String.valueOf(o1.get("eur")));
+        contents.add(String.valueOf(o.get("market_cap_rank")));
+        contents.add(String.valueOf(o.get("developer_score")));
+        return contents;
     }
 
     @Override
-    public ArrayList<Pair> getChartDiagram(String id) {
-        return new ArrayList<Pair>();
-    }
-
-    @Override
-    public ArrayList<Pair> getLineDiagram(String id) {
+    public ArrayList<Pair> getDiagramData(String id) {
         return new ArrayList<Pair>();
     }
 
@@ -62,6 +64,8 @@ public class ApiCriptoJson implements Strategy {
 
     @Override
     public String getImageUrl() {
-        return null;
+        JSONObject o = new JSONObject(data);
+        JSONObject o1 = o.getJSONObject("image");
+        return o1.getString("large");
     }
 }

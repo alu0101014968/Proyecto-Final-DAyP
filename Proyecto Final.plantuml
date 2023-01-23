@@ -1,0 +1,387 @@
+@startuml
+
+title __PROYECTO FINAL's Class Diagram__\n
+
+    namespace Controller {
+      class Controller.CovidController {
+      - chartPanelBar : ChartPanel
+                - chartPanelLine : ChartPanel
+                + CovidController()
+                + actionPerformed()
+                + init()
+                + setInfo()
+                + updateButtonFunction()
+                - findButtonFunction()
+                - initialiceGraphics()
+      }
+    }
+
+  
+
+
+    class Main {
+    }
+
+  
+
+    namespace Model {
+      class Model.HttpUrlConnection {
+      {static} + downloadFromURL()
+                - HttpUrlConnection()
+      }
+    }
+
+  
+
+
+    namespace Model {
+      class Model.Model {
+      - name : String
+                + Model()
+                + actualice()
+                + getDiagramDataset()
+                + getImageUrl()
+                + getInfo()
+                + getName()
+                + getNotifier()
+                + loadData()
+                + setStrategy()
+                + subscribe()
+                + unsubscribe()
+      }
+    }
+
+  
+
+
+    namespace Model {
+      namespace Observer {
+        class Model.Observer.Notifier {
+          - dataset : DefaultCategoryDataset
+                    - susbcribers : List<Representation>
+                    + Notifier()
+                    + actualiceData()
+                    + notifySubs()
+                    + setDataset()
+                    + subscribe()
+                    + unsubscribe()
+        }
+      }
+    }
+
+  
+
+
+    namespace Model {
+      class Model.Pair {
+       - first : Object
+                - second : Object
+                + Pair()
+                + getFirst()
+                + getSecond()
+                + toString()
+      }
+    }
+
+  
+
+    namespace Model {
+      namespace Proxy {
+        class Model.Proxy.StrategyProxy {
+         ~ cache : HashMap<String, String>
+                    ~ thread : Thread
+                    + StrategyProxy()
+                    + StrategyProxy()
+                    + actualice()
+                    + getData()
+                    + getDiagramData()
+                    + getDiagramDataset()
+                    + getImageUrl()
+                    + getInfo()
+                    + loadData()
+                    + setData()
+        }
+      }
+    }
+
+  
+
+
+    namespace Model {
+      namespace Strategy {
+        class Model.Strategy.ApiCovidJson {
+         - data : String
+                    - imageUrl : String
+                    - infoData : String
+                    - infoUrl : String
+                    - name : String
+                    - url : String
+                    + ApiCovidJson()
+                    + ApiCovidJson()
+                    + actualice()
+                    + getData()
+                    + getDiagramData()
+                    + getDiagramDataset()
+                    + getImageUrl()
+                    + getInfo()
+                    + loadData()
+                    + setData()
+                    - removeLastNchars()
+        }
+      }
+    }
+
+  
+
+
+    namespace Model {
+      namespace Strategy {
+        class Model.Strategy.ApiCriptoJson {
+        - data : String
+                    - name : String
+                    - url : String
+                    + ApiCriptoJson()
+                    + ApiCriptoJson()
+                    + actualice()
+                    + getData()
+                    + getDiagramData()
+                    + getDiagramDataset()
+                    + getImageUrl()
+                    + getInfo()
+                    + loadData()
+                    + setData()
+        }
+      }
+    }
+
+  
+
+    namespace Model {
+      namespace Strategy {
+        interface Model.Strategy.Strategy {
+         {abstract} + actualice()
+                    {abstract} + getData()
+                    {abstract} + getDiagramData()
+                    {abstract} + getDiagramDataset()
+                    {abstract} + getImageUrl()
+                    {abstract} + getInfo()
+                    {abstract} + loadData()
+                    {abstract} + setData()
+        }
+      }
+    }
+
+  
+
+
+    namespace View.AbstractFactory {
+      class View.AbstractFactory.CovidRepresentationFactory {
+      + createBarDiagram()
+                + createLineDiagram()
+      }
+    }
+
+  
+
+    namespace View.AbstractFactory {
+      class View.AbstractFactory.CriptoRepresentationFactory {
+      + createBarDiagram()
+                + createLineDiagram()
+      }
+    }
+
+  
+
+
+    namespace View.AbstractFactory {
+      abstract class View.AbstractFactory.RepresentationAbstractFactory {
+      {abstract} + createBarDiagram()
+                {abstract} + createLineDiagram()
+      }
+    }
+
+  
+
+
+    namespace View.CovidView {
+      abstract class View.CovidView.CovidView {
+        + casesButton : JButton
+                + comboBox1 : JComboBox
+                + comboBox2 : JComboBox
+                + contentPane : JPanel
+                + countryTextfield : JTextPane
+                + deathsButton : JButton
+                + findButton : JButton
+                + graphic1 : JPanel
+                + graphic2 : JPanel
+                + helpButton : JButton
+                + lbCountry : JLabel
+                + lbRecovered : JLabel
+                + lbUpdate : JLabel
+                + lbVaccinated : JLabel
+                + lblCasesValue : JLabel
+                + lblDeathsValue : JLabel
+                + lblFlag : JLabel
+                + lbnewCasesToday : JLabel
+                + panel_2 : JPanel
+                + recoverButton : JButton
+                + summaryButton : JButton
+                + updateButton : JButton
+                # font : String
+                # panel : JPanel
+                # panel_1 : JPanel
+                + CovidView()
+                {abstract} + fontType()
+                {static} + main()
+                + setImage()
+                {abstract} + viewType()
+                - initComponents()
+                - setScaleImage()
+      }
+    }
+
+  
+
+    namespace View.CovidView {
+      class View.CovidView.DarkCovidView {
+      + DarkCovidView()
+                + fontType()
+                + viewType()
+      }
+    }
+
+  
+
+
+    namespace View.CovidView {
+      class View.CovidView.LightCovidView {
+      + LightCovidView()
+                + fontType()
+                + viewType()
+      }
+    }
+
+  
+
+    namespace View.CriptoView {
+      abstract class View.CriptoView.CriptoView {
+      - contentPane : JPanel
+                + initComponents()
+                {static} + main()
+      }
+    }
+
+  
+
+
+    namespace View.CriptoView {
+      class View.CriptoView.LightCriptoView {
+      + fontType()
+                      + viewType()
+      }
+    }
+
+  
+
+    namespace View.Representations {
+      abstract class View.Representations.CategoryDatasetRepresentation {
+      }
+    }
+
+  
+
+
+    namespace View.Representations {
+      class View.Representations.CovidBarDiagram {
+       # chart : JFreeChart
+                # dataset : DefaultCategoryDataset
+                # datasetCopy : DefaultCategoryDataset
+                # title : String
+                + CategoryDatasetRepresentation()
+                + addData()
+                + getChart()
+                {abstract} + makeDiagram()
+                + removeAllColums()
+                + removeData()
+                + restaure()
+                + setDataset()
+                + setTitle()
+                + update()
+      }
+    }
+
+  
+
+    namespace View.Representations {
+      class View.Representations.CovidLineDiagram {
+      + CovidBarDiagram()
+                + makeDiagram()
+      }
+    }
+
+  
+
+
+    namespace View.Representations {
+      class View.Representations.CriptoBarDiagram {
+       + CovidLineDiagram()
+                + makeDiagram()
+      }
+    }
+
+  
+
+
+    namespace View.Representations {
+      class View.Representations.CriptoLineDiagram {
+    + CriptoBarDiagram()
+             + makeDiagram()
+         }
+      }
+
+
+  
+
+    namespace View.Representations {
+      interface View.Representations.Representation {
+          + CriptoLineDiagram()
+                + makeDiagram()
+      }
+    }
+
+  
+
+  Controller.CovidController .up.|> java.awt.event.ActionListener
+  Controller.CovidController o-- View.Representations.CategoryDatasetRepresentation : barDiagram
+  Controller.CovidController o-- View.Representations.CategoryDatasetRepresentation : lineDiagram
+  Controller.CovidController o-- Model.Model : model
+  Controller.CovidController o-- View.CovidView.CovidView : view
+  Model.Model o-- Model.Observer.Notifier : notifier
+  Model.Model o-- Model.Strategy.Strategy : strategyProxy
+  Model.Proxy.StrategyProxy .up.|> Model.Strategy.Strategy
+  Model.Proxy.StrategyProxy o-- Model.Strategy.Strategy : apiData
+  Model.Strategy.ApiCovidJson .up.|> Model.Strategy.Strategy
+  Model.Strategy.ApiCriptoJson .up.|> Model.Strategy.Strategy
+  View.AbstractFactory.CovidRepresentationFactory -up-|> View.AbstractFactory.RepresentationAbstractFactory
+  View.AbstractFactory.CriptoRepresentationFactory -up-|> View.AbstractFactory.RepresentationAbstractFactory
+  View.CovidView.CovidView -up-|> javax.swing.JFrame
+  View.CovidView.DarkCovidView -up-|> View.CovidView.CovidView
+  View.CovidView.LightCovidView -up-|> View.CovidView.CovidView
+  View.CriptoView.CriptoView -up-|> javax.swing.JFrame
+  View.CriptoView.LightCriptoView -up-|> View.CriptoView.CriptoView
+  View.Representations.CategoryDatasetRepresentation .up.|> View.Representations.Representation
+  View.Representations.CategoryDatasetRepresentation -up-|> javax.swing.JFrame
+  View.Representations.CovidBarDiagram -up-|> View.Representations.CategoryDatasetRepresentation
+  View.Representations.CovidLineDiagram -up-|> View.Representations.CategoryDatasetRepresentation
+  View.Representations.CriptoBarDiagram -up-|> View.Representations.CategoryDatasetRepresentation
+  View.Representations.CriptoLineDiagram -up-|> View.Representations.CategoryDatasetRepresentation
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

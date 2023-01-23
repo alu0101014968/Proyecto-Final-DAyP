@@ -66,19 +66,11 @@ public class StrategyProxy implements Strategy {
     }
 
     @Override
-    public ArrayList<Pair> getChartDiagram(String id) {
+    public ArrayList<Pair> getDiagramData(String id) {
         if (apiData == null) {
             apiData = new ApiCovidJson();
         }
-        return apiData.getChartDiagram(id);
-    }
-
-    @Override
-    public ArrayList<Pair> getLineDiagram(String id) {
-        if (apiData == null) {
-            apiData = new ApiCovidJson();
-        }
-        return apiData.getLineDiagram(id);
+        return apiData.getDiagramData(id);
     }
 
     @Override

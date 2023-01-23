@@ -20,30 +20,8 @@ public class Model {
         notifier = new Notifier();
     }
 
-   /* public boolean loadData(String name) throws IOException {
-        this.name = name;
-        //if (!strategyProxy.loadData(name))
-            //strategyProxy.loadData("spain");
-        return strategyProxy.loadData(name); // En el caso que de error mostramos ventana con error
-    }*/
-    // Seria proxy porque simula ser un strategy
     public void setStrategy(Strategy strategy) {
         this.strategyProxy = strategy;
-    }
-
-    // Crea el modelo con los datos necesarios como graficas e informacion, de un tipo de dato en especifico
-    // Por ejemplo de un name[pais]: Spain o de una name[moneda]: bitcoin
-    // El name se pasa a traves de la vista this.name = view.textfield() o view.getName()
-    public HashMap<String, ArrayList<Pair>> makeModel(String name) throws IOException {
-        // Podria contener los anteriores metodos usando cada una de sus funciones
-        //this.name = name;
-        HashMap<String, ArrayList<Pair>> components = new HashMap<>();
-        //if (!strategyProxy.loadData(name))
-            //strategyProxy.loadData("spain");
-        //components.put("LineDiagram", strategyProxy.getLineDiagram());
-        ///components.put("Info", strategyProxy.getInfo());
-        //components.put("ChartDiagram", strategyProxy.getChartDiagram());
-        return components;
     }
 
     public boolean loadData(String name) throws Exception {
@@ -54,30 +32,12 @@ public class Model {
         return value;
     }
 
-    public boolean actualice() throws Exception {
+    public boolean actualice(String name) throws Exception {
 
         // thread = new Runable lo que sea
         // thread.sleep() tiempo que sea (Covid 10 min, Cripto 1 min)
-        strategyProxy.actualice(name);
-        return loadData(name);
+        return strategyProxy.actualice(this.name);
         // thread.close();
-    }
-
-    public HashMap<String, ArrayList<Pair>> getGraphics(String id) { // Seria el makeModel()
-        HashMap<String, ArrayList<Pair>> components = new HashMap<>();
-        components.put("LineDiagram", getLineGraphic(id));
-        components.put("ChartDiagram", getBarGraphic(id));
-        return components;
-    }
-
-    public ArrayList<Pair> getLineGraphic(String id) {
-        //strategyProxy.getLineDiagram(id);
-        return null;
-    }
-
-    public ArrayList<Pair> getBarGraphic(String id) {
-        //strategyProxy.getBarDiagram(id);
-        return null;
     }
 
     public void subscribe(Representation representation) {
@@ -102,5 +62,9 @@ public class Model {
 
     public Notifier getNotifier() {
         return notifier;
+    }
+
+    public String getName() {
+        return name;
     }
 }

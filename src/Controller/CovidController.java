@@ -1,16 +1,15 @@
 package Controller;
 
 import Model.Model;
-import View.Representations.BarDiagram;
+import View.AbstractFactory.CovidRepresentationFactory;
+import View.AbstractFactory.RepresentationAbstractFactory;
 import View.Representations.CategoryDatasetRepresentation;
-import View.CovidView;
+import View.CovidView.CovidView;
 import org.jfree.chart.ChartPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -19,12 +18,21 @@ public class CovidController implements ActionListener {
     private Model model;
     private CategoryDatasetRepresentation lineDiagram;
     private CategoryDatasetRepresentation barDiagram;
+    private ChartPanel chartPanelBar;
+    private ChartPanel chartPanelLine;
 
     public CovidController(CovidView view, Model model) throws Exception {
         this.view = view;
         this.model = model;
         this.view.findButton.addActionListener(this);
-
+        this.view.updateButton.addActionListener(this);
+        this.view.comboBox1.addActionListener(this);
+        this.view.comboBox2.addActionListener(this);
+        this.view.casesButton.addActionListener(this);
+        this.view.summaryButton.addActionListener(this);
+        this.view.recoverButton.addActionListener(this);
+        this.view.helpButton.addActionListener(this);
+        this.view.deathsButton.addActionListener(this);
         init();
     }
 
@@ -41,6 +49,72 @@ public class CovidController implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (view.comboBox1.getSelectedItem().equals("Bar Diagram")) {
+            view.graphic1.removeAll();
+            view.graphic1.add(chartPanelBar);
+        } else {
+            view.graphic1.removeAll();
+            view.graphic1.add(chartPanelLine);
+        }
+        if (view.comboBox2.getSelectedItem().equals("All")) {
+            barDiagram.setDataset(model.getDiagramDataset());
+            lineDiagram.setDataset(model.getDiagramDataset());
+        } else if (view.comboBox2.getSelectedItem().equals("2020")) {
+            barDiagram.setDataset(model.getDiagramDataset());
+            lineDiagram.setDataset(model.getDiagramDataset());
+            barDiagram.removeAllColums("2022");
+            lineDiagram.removeAllColums("2022");
+            barDiagram.removeAllColums("2021");
+            lineDiagram.removeAllColums("2021");
+        } else if (view.comboBox2.getSelectedItem().equals("2021")) {
+            barDiagram.setDataset(model.getDiagramDataset());
+            lineDiagram.setDataset(model.getDiagramDataset());
+            barDiagram.removeAllColums("2022");
+            lineDiagram.removeAllColums("2022");
+            barDiagram.removeAllColums("2020");
+            lineDiagram.removeAllColums("2020");
+        } else if (view.comboBox2.getSelectedItem().equals("2022")) {
+            barDiagram.setDataset(model.getDiagramDataset());
+            lineDiagram.setDataset(model.getDiagramDataset());
+            barDiagram.removeAllColums("2021");
+            lineDiagram.removeAllColums("2021");
+            barDiagram.removeAllColums("2020");
+            lineDiagram.removeAllColums("2020");
+        }
+        view.graphic1.revalidate();
+        view.graphic1.repaint();
+        view.graphic1.setVisible(true);
+
+        Object origen = e.getSource();
+        if (origen == this.view.findButton) {
+            findButtonFunction();
+        } else if (origen == view.updateButton) {
+            updateButtonFunction();
+        } else if (origen == view.helpButton) {
+            JOptionPane.showMessageDialog(null, "Write a Country and then click in the find button " +
+                    "to see all its covid data");
+        } else if (origen == view.recoverButton) {
+            barDiagram.setDataset(model.getDiagramDataset());
+            lineDiagram.setDataset(model.getDiagramDataset());
+            barDiagram.removeData("Cases");
+            barDiagram.removeData("Deaths");
+        } else if (origen == view.deathsButton) {
+            barDiagram.setDataset(model.getDiagramDataset());
+            lineDiagram.setDataset(model.getDiagramDataset());
+            barDiagram.removeData("Cases");
+            barDiagram.removeData("Recovered");
+        } else if (origen == view.casesButton) {
+            barDiagram.setDataset(model.getDiagramDataset());
+            lineDiagram.setDataset(model.getDiagramDataset());
+            barDiagram.removeData("Deaths");
+            barDiagram.removeData("Recovered");
+        } else if (origen == view.summaryButton) {
+            barDiagram.setDataset(model.getDiagramDataset());
+            lineDiagram.setDataset(model.getDiagramDataset());
+        }
+    }
+
+    private void findButtonFunction() {
         if (!view.countryTextfield.getText().isEmpty()) {
             try {
                 this.model.loadData(view.countryTextfield.getText());
@@ -56,21 +130,42 @@ public class CovidController implements ActionListener {
         }
     }
 
+    public void updateButtonFunction() {
+        try {
+            this.model.actualice(model.getName());
+            Date date = new Date();
+            view.lbUpdate.setText("Last update: " + String.valueOf(date));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public void init() throws Exception {
         model.loadData("Spain");
         setInfo(model.getInfo());
-        barDiagram = new BarDiagram(this.model.getDiagramDataset());
-        model.subscribe(barDiagram);
-        ChartPanel chartPanel = new ChartPanel(barDiagram.getChart());
-        chartPanel.setPreferredSize(new java.awt.Dimension(view.graphic1.getWidth(), view.graphic1.getHeight()));
-        JPanel mainPanel = new JPanel();
-        mainPanel.add(chartPanel);
-        view.graphic1.add(mainPanel);
 
+        initialiceGraphics();
+        view.graphic1.add(chartPanelBar);
         view.graphic1.setVisible(true);
+        view.panel_2.setVisible(true);
 
         view.setImage(model.getImageUrl());
         view.setVisible(true);
         view.setLocationRelativeTo(null);
+    }
+
+    private void initialiceGraphics() throws CloneNotSupportedException {
+        RepresentationAbstractFactory factory = new CovidRepresentationFactory();
+        barDiagram = (CategoryDatasetRepresentation) factory.createBarDiagram(this.model.getDiagramDataset());
+        lineDiagram = (CategoryDatasetRepresentation) factory.createLineDiagram(this.model.getDiagramDataset());
+        model.subscribe(barDiagram);
+        model.subscribe(lineDiagram);
+
+        chartPanelBar = new ChartPanel(barDiagram.getChart());
+        view.graphic1.setLayout(new java.awt.BorderLayout());
+
+
+        chartPanelLine = new ChartPanel(lineDiagram.getChart());
+        view.graphic1.setLayout(new java.awt.BorderLayout());
     }
 }

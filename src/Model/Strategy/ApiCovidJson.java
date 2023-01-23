@@ -30,7 +30,6 @@ public class ApiCovidJson implements Strategy {
     }
 
     public void setData(String data, String name) throws IOException {
-        System.out.println("ENTRAAAA");
         this.name = name;
         this.data = data;
         this.infoData = HttpUrlConnection.downloadFromURL(infoUrl + name);
@@ -80,7 +79,7 @@ public class ApiCovidJson implements Strategy {
     }
 
     @Override
-    public ArrayList<Pair> getChartDiagram(String id) { // getDiagramData
+    public ArrayList<Pair> getDiagramData(String id) { // getDiagramData
         ArrayList<Pair> values = new ArrayList<>();
         JSONArray jsonArray = new JSONArray(data);
         JSONObject jsonObject;
@@ -90,30 +89,29 @@ public class ApiCovidJson implements Strategy {
             String date = removeLastNchars(jsonObject.getString("Date"), 10);
             Integer number = jsonObject.getInt(id);
             if (i > 0) {
-                JSONObject aux = jsonArray.getJSONObject(i - 1);
-                number = number - aux.getInt(id);
+                if (number == 0) {
+                    number = 0;
+                } else {
+                    JSONObject aux = jsonArray.getJSONObject(i - 1);
+                    number = Math.abs(number - aux.getInt(id));
+                }
             }
             values.add(new Pair(date,number));
         }
         return values;
     }
 
-    @Override
-    public ArrayList<Pair> getLineDiagram(String id) {
-        return new ArrayList<>();
-    }
-
     public DefaultCategoryDataset getDiagramDataset() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        for (Pair p : getChartDiagram("Confirmed")) {
+        for (Pair p : getDiagramData("Confirmed")) {
             dataset.addValue((Integer) p.getSecond(), "Cases", (String) p.getFirst());
         }
 
-        for (Pair p : getChartDiagram("Deaths")) {
+        for (Pair p : getDiagramData("Deaths")) {
             dataset.addValue((Integer) p.getSecond(), "Deaths", (String) p.getFirst());
         }
 
-        for (Pair p : getChartDiagram("Recovered")) {
+        for (Pair p : getDiagramData("Recovered")) {
             dataset.addValue((Integer) p.getSecond(), "Recovered", (String) p.getFirst());
         }
         return dataset;

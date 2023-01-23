@@ -42,6 +42,15 @@ public abstract class CategoryDatasetRepresentation extends JFrame implements Re
         setDataset(dataset);
     }
 
+    public void removeAllColums(String id) {
+        for (int i = 0; i < dataset.getColumnCount(); i++) {
+            Comparable columnKey = dataset.getColumnKey(i);
+            if (columnKey.toString().contains(id))
+                dataset.removeColumn(columnKey);
+        }
+        setDataset(dataset);
+    }
+
     public void restaure() {
         setDataset(datasetCopy);
     }
